@@ -5,15 +5,12 @@ public class Zombie {
 	private double x;
 	private int y;
 	private int health;
-	private double width, height;
 	
 	public Zombie(double x, int y, int health)
 	{
 		this.x = x;
 		this.y = y;
 		this.health = health;
-		width = 4.0;
-		height = 8.0;
 	}
 	
 	public double getX()
@@ -43,11 +40,13 @@ public class Zombie {
 	
 	public double getWidth()
 	{
-		return width;
+		return 5.0;
 	}
 	
 	public double getHeight()
 	{
-		return height;
+		double wid = getWidth()/MarshGame.BOARD_WIDTH*MarshGame.lastImgSize.width;
+		double hei = 29.0/14*wid;
+		return hei/MarshGame.lastImgSize.height*MarshGame.BOARD_HEIGHT;
 	}
 }

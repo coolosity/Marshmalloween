@@ -9,37 +9,46 @@ import javax.imageio.ImageIO;
 
 public class Resources {
 
-	private static HashMap<String,BufferedImage> images;
+	private static HashMap<String,Sprite> images;
 	
 	public static final String IMAGE_BACKGROUND = "background";
 	public static final String IMAGE_PLAYER = "player";
 	public static final String IMAGE_ZOMBIE = "zombie";
+		public static final int STATES_ZOMBIE = 2;
 	public static final String IMAGE_MARSHMELLOW = "marshmellow";
 	public static final String IMAGE_AMMO = "ammo";
-	public static final String IMAGE_CANDY1 = "candy_1";
-	public static final String IMAGE_CANDY2 = "candy_2";
-	public static final String IMAGE_CANDY3 = "candy_3";
+	public static final String IMAGE_CANDY = "candy";
+		public static final int STATES_CANDY = 3;
 	public static final String IMAGE_SPLASH = "splash";
-	public static final String IMAGE_PLAY0 = "play_0";
-	public static final String IMAGE_PLAY1 = "play_1";
-	public static final String IMAGE_LEADER0 = "leader_0";
-	public static final String IMAGE_LEADER1 = "leader_1";
+	public static final String IMAGE_PLAY = "play";
+		public static final int STATES_PLAY = 2;
+	public static final String IMAGE_LEADER = "leader";
+		public static final int STATES_LEADER = 2;
 	public static final String IMAGE_LEADERSPLASH = "leadersplash";
-	public static final String IMAGE_BACK0 = "back_0";
-	public static final String IMAGE_BACK1 = "back_1";
+	public static final String IMAGE_BACK = "back";
+		public static final int STATES_BACK = 2;
 	public static final String IMAGE_WINSPLASH = "winsplash";
-	public static final String IMAGE_SUBMIT0 = "submit_0";
-	public static final String IMAGE_SUBMIT1 = "submit_1";
+	public static final String IMAGE_SUBMIT = "submit";
+		public static final int STATES_SUBMIT = 2;
 	
 	public static void loadResources()
 	{
-		images = new HashMap<String,BufferedImage>();
+		images = new HashMap<String,Sprite>();
 		for(Field f : Resources.class.getFields())
 		{
-			if(f.getName().startsWith("IMAGE_"))
+			String name = f.getName();
+			if(name.startsWith("IMAGE_"))
 			{
+				String[] spl = name.split("_");
 				try {
-					loadImage((String) f.get(null));
+					int states = 0;
+					Field sta = null;
+					try {
+						sta = Resources.class.getField("STATES_"+spl[1]);
+						states = sta.getInt(null);
+					} catch (NoSuchFieldException | SecurityException e) {}
+					MarshMain.log("Loading "+name+" with "+states+" state"+(states!=1?"s":""));
+					loadImage((String) f.get(null),states);
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
@@ -49,24 +58,53 @@ public class Resources {
 		}
 	}
 	
-	private static void loadImage(String shortName)
+	private static void loadImage(String shortName, int states)
 	{
-		BufferedImage img;
-		try
+		if(states==0)
 		{
-			File file = new File("res"+File.separator+shortName+".png");
-			img = ImageIO.read(file);
+			BufferedImage img;
+			try
+			{
+				File file = new File("res"+File.separator+shortName+".png");
+				img = ImageIO.read(file);
+			}
+			catch(Exception e)
+			{
+				System.err.println("Could not load image res/"+shortName+".png");
+				img = new BufferedImage(100,100,BufferedImage.TYPE_INT_ARGB);
+			}
+			images.put(shortName, new Sprite(new BufferedImage[]{img}));
 		}
-		catch(Exception e)
+		else
 		{
-			System.err.println("Could not load image res/"+shortName+".png");
-			img = new BufferedImage(100,100,BufferedImage.TYPE_INT_ARGB);
+			BufferedImage[] imgs = new BufferedImage[states];
+			for(int i=0;i<states;i++)
+			{
+				BufferedImage img;
+				try
+				{
+					File file = new File("res"+File.separator+shortName+"_"+i+".png");
+					img = ImageIO.read(file);
+				}
+				catch(Exception e)
+				{
+					System.err.println("Could not load image res/"+shortName+"_"+i+".png");
+					img = new BufferedImage(100,100,BufferedImage.TYPE_INT_ARGB);
+				}
+				imgs[i] = img;
+			}
+			images.put(shortName, new Sprite(imgs));
 		}
-		images.put(shortName, img);
+	}
+	
+	public static Sprite getSprite(String sprite)
+	{
+		return images.get(sprite);
 	}
 	
 	public static BufferedImage getImage(String image)
 	{
-		return images.get(image);
+		Sprite spr = getSprite(image);
+		return spr.getImage(0);
 	}
 }

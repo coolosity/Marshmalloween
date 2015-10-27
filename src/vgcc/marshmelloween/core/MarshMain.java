@@ -224,14 +224,14 @@ public class MarshMain implements KeyListener, Runnable, MouseListener, MouseMot
 			int pheight = (int)(PLAY[3]*img.getHeight());
 			int px = (int)(PLAY[0]*img.getWidth())-pwidth/2;
 			int py = (int)(PLAY[1]*img.getHeight())-pheight/2;
-			String imgg = Resources.IMAGE_PLAY0;
+			int state = 0;
 			hoverPlay = false;
 			if(mse.x >= px && mse.y >= py && mse.x <= px+pwidth && mse.y <= py+pheight)
 			{
-				imgg = Resources.IMAGE_PLAY1;
+				state = 1;
 				hoverPlay = true;
 			}
-			g.drawImage(Resources.getImage(imgg), px, py, pwidth, pheight, null);
+			g.drawImage(Resources.getSprite(Resources.IMAGE_PLAY).getImage(state), px, py, pwidth, pheight, null);
 		}
 		
 		//Leader button
@@ -240,14 +240,14 @@ public class MarshMain implements KeyListener, Runnable, MouseListener, MouseMot
 			int pheight = (int)(LEADER[3]*img.getHeight());
 			int px = (int)(LEADER[0]*img.getWidth())-pwidth/2;
 			int py = (int)(LEADER[1]*img.getHeight())-pheight/2;
-			String imgg = Resources.IMAGE_LEADER0;
+			int state = 0;
 			hoverLeader = false;
 			if(mse.x >= px && mse.y >= py && mse.x <= px+pwidth && mse.y <= py+pheight)
 			{
-				imgg = Resources.IMAGE_LEADER1;
+				state = 1;
 				hoverLeader = true;
 			}
-			g.drawImage(Resources.getImage(imgg), px, py, pwidth, pheight, null);
+			g.drawImage(Resources.getSprite(Resources.IMAGE_LEADER).getImage(state), px, py, pwidth, pheight, null);
 		}
 		return img;
 	}
@@ -279,14 +279,14 @@ public class MarshMain implements KeyListener, Runnable, MouseListener, MouseMot
 			int pheight = (int)(BACK[3]*img.getHeight());
 			int px = (int)(BACK[0]*img.getWidth())-pwidth/2;
 			int py = (int)(BACK[1]*img.getHeight())-pheight/2;
-			String imgg = Resources.IMAGE_BACK0;
+			int state = 0;
 			hoverBack = false;
 			if(mse.x >= px && mse.y >= py && mse.x <= px+pwidth && mse.y <= py+pheight)
 			{
-				imgg = Resources.IMAGE_BACK1;
+				state = 1;
 				hoverBack = true;
 			}
-			g.drawImage(Resources.getImage(imgg), px, py, pwidth, pheight, null);
+			g.drawImage(Resources.getSprite(Resources.IMAGE_BACK).getImage(state), px, py, pwidth, pheight, null);
 		}
 		
 		//Scores
@@ -351,14 +351,14 @@ public class MarshMain implements KeyListener, Runnable, MouseListener, MouseMot
 			int pheight = (int)(SUBMIT[3]*img.getHeight());
 			int px = (int)(SUBMIT[0]*img.getWidth())-pwidth/2;
 			int py = (int)(SUBMIT[1]*img.getHeight())-pheight/2;
-			String imgg = Resources.IMAGE_SUBMIT0;
+			int state = 0;
 			hoverSubmit = false;
 			if(mse.x >= px && mse.y >= py && mse.x <= px+pwidth && mse.y <= py+pheight)
 			{
-				imgg = Resources.IMAGE_SUBMIT1;
+				state = 1;
 				hoverSubmit = true;
 			}
-			g.drawImage(Resources.getImage(imgg), px, py, pwidth, pheight, null);
+			g.drawImage(Resources.getSprite(Resources.IMAGE_SUBMIT).getImage(state), px, py, pwidth, pheight, null);
 		}
 		
 		//Name

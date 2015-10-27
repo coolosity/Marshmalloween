@@ -1,6 +1,7 @@
 package vgcc.marshmelloween.core;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -21,8 +22,8 @@ public class MarshGame {
 	private static final long SHOT_DELAY = 250;
 	
 	//Display Constants
-	private static final int BOARD_WIDTH = 100;
-	private static final int BOARD_HEIGHT = 80;
+	public static final int BOARD_WIDTH = 100;
+	public static final int BOARD_HEIGHT = 80;
 	private static final int AMMO_SPACE = 30;
 	private static final int AMMO_WIDTH = 30;
 	private static final int AMMO_HEIGHT = 60;
@@ -33,10 +34,12 @@ public class MarshGame {
 	private static final double CANDY_HEIGHT = 0.755;
 	private static final double PLAYER_WIDTH = 4.0;
 	private static final double PLAYER_HEIGHT = 12.0;
-	private static final double[] rows = {0.12, 0.387, 0.655};
+	private static final double[] rows = {0.097, 0.37, 0.666};
 	private static final double playerLoc = 0.181;
 	private static final Font fontMain = new Font("Arial",Font.PLAIN,64);
 	private static final Color fontColor = Color.RED;
+	
+	public static Dimension lastImgSize = new Dimension(1,1);
 	
 	//private MarshMain plugin;
 	private Random random;
@@ -197,6 +200,8 @@ public class MarshGame {
 	
 	public void draw(BufferedImage img)
 	{
+		lastImgSize.width = img.getWidth();
+		lastImgSize.height = img.getHeight();
 		int boardX = (int) (playerLoc*img.getWidth());
 		Graphics g = img.getGraphics();
 		g.setColor(Color.WHITE);
@@ -238,8 +243,7 @@ public class MarshGame {
 		//Draw candy lives
 		if(lives>0)
 		{
-			String imgg = "candy_"+lives;
-			g.drawImage(Resources.getImage(imgg), (int)(img.getWidth()*CANDY_X), (int)(img.getHeight()*CANDY_Y), (int)(img.getWidth()*CANDY_WIDTH), (int)(img.getHeight()*CANDY_HEIGHT), null);
+			g.drawImage(Resources.getSprite(Resources.IMAGE_CANDY).getImage(lives-1), (int)(img.getWidth()*CANDY_X), (int)(img.getHeight()*CANDY_Y), (int)(img.getWidth()*CANDY_WIDTH), (int)(img.getHeight()*CANDY_HEIGHT), null);
 		}
 		
 		//Draw score
